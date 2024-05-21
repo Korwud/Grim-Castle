@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Grim_Castle.Architecture 
 {
-    public class Weapon : IGameObject
+    public class Weapon
     {
         private string name;
         private double damage;
