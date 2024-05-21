@@ -1,17 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Grim_Castle.Architecture
 {
     public class PlayerDrawer
     {
-        public static void PlayerDraw(SpriteBatch spriteBatch, Texture2D player, Vector2 position)
+        public static void PlayerDraw(SpriteBatch spriteBatch, Texture2D player)
         {
             var basePlayer = new Player();
-            var playerPosition = basePlayer.Position;
             spriteBatch.Begin();
-            basePlayer.PositionChange(position);
-            spriteBatch.Draw(player, new Vector2(playerPosition.X + 4, playerPosition.Y + 22), Color.White);
+            spriteBatch.Draw(player, new Vector2(basePlayer.Position.X, basePlayer.Position.Y + 17), Color.White);
             spriteBatch.End();
         }
     }

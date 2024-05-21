@@ -15,15 +15,15 @@ namespace Grim_Castle.Architecture
             var map = new Map();
             var player = new Player();
             var tile = tile_1;
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < map.Width; i++)
             {
-                for (var j = 0; j < 6; j++)
+                for (var j = 0; j < map.Height; j++)
                 {
                     tile = TileSelect(tile_1, tile_2, tile_3, tile_4, tile, i, j);
                     var cell = map.CellPositions[i, j];
                     spriteBatch.Begin();
                     if (player.AvailableCells.Contains(cell))
-                        spriteBatch.Draw(tile, cell, Color.AntiqueWhite);
+                        spriteBatch.Draw(tile, cell, Color.LightYellow);
                     else
                         spriteBatch.Draw(tile, cell, Color.White);
                     spriteBatch.End();
