@@ -11,6 +11,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\Images\**" />
+    <Compile Remove="Content\Sprite\**" />
+    <EmbeddedResource Remove="Content\Images\**" />
+    <EmbeddedResource Remove="Content\Sprite\**" />
+    <None Remove="Content\Images\**" />
+    <None Remove="Content\Sprite\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
