@@ -11,11 +11,17 @@ namespace Grim_Castle.Architecture.View
 {
     public class SlimeDrawer
     {
-        public static void DrawSlime(SpriteBatch spriteBatch, Texture2D texture, Slime slime)
+        public static void DrawSlime(Texture2D texture, Slime slime)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(texture, new Vector2(slime.Position.X + 3, slime.Position.Y + 20), Color.White);
-            spriteBatch.End();
+            var spriteBatch = Game1.spriteBatch;
+            var map = new Map();
+            var (i, j) = map.FindCellByVector(slime.Position);
+            if (map.Cells[i, j] is Slime)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(texture, new Vector2(slime.Position.X + 3, slime.Position.Y + 20), Color.White);
+                spriteBatch.End();
+            }
         }
     }
 }

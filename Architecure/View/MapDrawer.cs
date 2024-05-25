@@ -10,8 +10,9 @@ namespace Grim_Castle.Architecture
 {
     public class MapDrawer
     {
-        public static void DrawMap(SpriteBatch spriteBatch, Texture2D tile_1, Texture2D tile_2, Texture2D tile_3, Texture2D tile_4)
+        public static void DrawMap(Texture2D tile_1, Texture2D tile_2, Texture2D tile_3, Texture2D tile_4)
         {
+            var spriteBatch = Game1.spriteBatch;
             var map = new Map();
             var player = new Player();
             var tile = tile_1;
@@ -22,7 +23,7 @@ namespace Grim_Castle.Architecture
                     tile = TileSelect(tile_1, tile_2, tile_3, tile_4, tile, i, j);
                     var cell = map.CellPositions[i, j];
                     spriteBatch.Begin();
-                    if (player.AvailableCells.Contains(cell))
+                    if (player.AvailableCells.Contains(cell) && (map.Cells[i, j] is null || map.Cells[i, j] is Weapon))
                         spriteBatch.Draw(tile, cell, Color.LightYellow);
                     else
                         spriteBatch.Draw(tile, cell, Color.White);

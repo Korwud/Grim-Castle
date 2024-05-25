@@ -6,12 +6,18 @@ namespace Grim_Castle.Architecture
 {
     public class PlayerDrawer
     {
-        public static void PlayerDraw(SpriteBatch spriteBatch, Texture2D player)
+        public static void DrawPlayer(Texture2D player)
         {
+            var spriteBatch = Game1.spriteBatch;
             var basePlayer = new Player();
-            spriteBatch.Begin();
-            spriteBatch.Draw(player, new Vector2(basePlayer.Position.X, basePlayer.Position.Y + 17), Color.White);
-            spriteBatch.End();
+            var map = new Map();
+            var (i, j) = map.FindCellByVector(basePlayer.Position);
+            if (map.Cells[i, j] is Player)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(player, new Vector2(basePlayer.Position.X, basePlayer.Position.Y + 17), Color.White);
+                spriteBatch.End();
+            }
         }
     }
 }
