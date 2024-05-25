@@ -12,8 +12,8 @@ namespace Grim_Castle.Architecture
     {
         public int Width = 13;
         public int Height = 6;
-        private static ICreature[,] map = new ICreature[13, 6];
-        public ICreature[,] Cells { get { return map; } set { } }
+        private static IGameObject[,] map = new IGameObject[13, 6];
+        public IGameObject[,] Cells { get { return map; } set { } }
         private int CellWidth = 140;
         private int CellHeight = 142;
         private Vector2[,] cellPositions;
@@ -57,6 +57,11 @@ namespace Grim_Castle.Architecture
             return (x, y);
         }
 
+        public (int, int) FindCellByVector(Vector2 position)
+        {
+            return FindCell((int)position.X, (int)position.Y);
+        }
+
         public bool IsPossibleMove(Vector2 position, Vector2 newPosition, int distance)
         {
             var initialCoordinates = (0, 0);
@@ -76,28 +81,27 @@ namespace Grim_Castle.Architecture
             }
             else return false;
             return Math.Abs(initialCoordinates.Item1 - newCoordinates.Item1) < distance + 1
-                && Math.Abs(initialCoordinates.Item2 - newCoordinates.Item2) < distance + 1
-                && Cells[newCoordinates.Item1, newCoordinates.Item2] is null;
+                && Math.Abs(initialCoordinates.Item2 - newCoordinates.Item2) < distance + 1;
         }
 
-        public void SetCreaturePosition(ICreature creature, Vector2 position, Vector2 newPosition, int distance)
+        public void SetGameObject(IGameObject gameObject, Vector2 position, Vector2 newPosition, int distance = 1)
         {
-            var (i, j) = FindCell((int)position.X, (int)position.Y);
+            var (i, j) = FindCellByVector(position);
             if (position != newPosition)
             {
                 if (IsPossibleMove(position, newPosition, distance))
                 {
                     map[i, j] = null;
-                    (i, j) = FindCell((int)newPosition.X, (int)newPosition.Y);
+                    (i, j) = FindCellByVector(newPosition);
                 }
             }
-            map[i, j] = creature;
+            map[i, j] = gameObject;
         }
 
         public HashSet<Vector2> FillAvailableCells(int distance, Vector2 position)
         {
             var availableCells = new HashSet<Vector2>();
-            var (i, j) = FindCell((int)position.X, (int)position.Y);
+            var (i, j) = FindCellByVector(position);
             for (var dx = -distance; dx < distance + 1; dx++)
             {
                 for (var dy = -distance; dy < distance + 1; dy++)
@@ -113,6 +117,21 @@ namespace Grim_Castle.Architecture
                 }
             }
             return availableCells;
+        }
+
+        public Monster IsMonsterHere(Vector2 position)
+        {
+            var (i, j) = FindCellByVector(position);
+            if (Cells[i, j] is Monster)
+                return Cells[i, j] as Monster;
+            return null;
+        }
+
+        public void DeleteCreature(Vector2 position)
+        {
+            var (i, j) = FindCellByVector(position);
+            if (map[i, j] is not null)
+                map[i, j] = null;
         }
     }
 }

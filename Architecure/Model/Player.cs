@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Grim_Castle.Architecture.Model;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace Grim_Castle.Architecture
 {
-    public class Player : ICreature
+    public class Player : IGameObject
     {
         private Map map = new();
 
-        private double hp = 20;
+        private double maxHp = 100;
+        public double MaxHp { get { return maxHp; } }
+        private static double hp = 100;
         public event Action hpChanged;
         public double Hp
         {   get { return hp; }
@@ -24,45 +27,83 @@ namespace Grim_Castle.Architecture
             }
         }
 
-        private Weapon weapon;
-        public Weapon CurrentWeapon { get { return weapon; } }
+
+        private static Weapon currentWeapon;
+        public Weapon CurrentWeapon { get 
+            {
+                if (currentWeapon is null)
+                    currentWeapon = Inventory.Weapons[0];
+                return currentWeapon; 
+            } }
 
 
+        public void ChangeCurrentWeapon(Weapon weapon)
+        {
+            if (Inventory.Weapons.Contains(weapon))
+                currentWeapon = weapon;
+        }
+
+
+        public int Distance = 1;
         private static Vector2 position = Vector2.Zero;
         public event Action positionChanged;
-        public Vector2 Position 
-        { get 
-            { 
+        public Vector2 Position
+        {
+            get
+            {
                 if (position == Vector2.Zero)
                 {
-                    map.SetCreaturePosition(new Player(), map.CellPositions[0, 2], map.CellPositions[0, 2], Distance);
-                    position = map.CellPositions[0, 2];
+                    var startPosition = map.CellPositions[0, 2];
+                    map.SetGameObject(new Player(), startPosition, startPosition, Distance);
+                    position = startPosition;
                 }
                 return position;
-            } 
-        }
-        public int Distance = 1;
-
-
-        private HashSet<Vector2> availableCells = new ();
-        public HashSet<Vector2> AvailableCells { get 
-            {
-                availableCells = map.FillAvailableCells(Distance, Position);
-                return availableCells; } }
-
-        public void GetDamage(Monster monster)
-        {
-            Hp -= monster.Damage;
+            }
         }
 
         public void PositionChange(Vector2 newPosition)
         {
-            if (map.IsPossibleMove(Position, newPosition, Distance))
+            if (map.IsPossibleMove(Position, newPosition, Distance) && IsAlive)
             {
-                map.SetCreaturePosition(new Player(), Position, newPosition, Distance);
-                position = newPosition;
-                positionChanged?.Invoke();
-            }       
+                var (i, j) = map.FindCellByVector(newPosition);
+                if (map.Cells[i, j] is null || map.Cells[i, j] is Weapon)
+                {
+                    if (map.Cells[i, j] is Weapon)
+                        Inventory.AddWeapon(i, j);
+                    map.SetGameObject(new Player(), Position, newPosition, Distance);
+                    position = newPosition;
+                    positionChanged?.Invoke();
+                }
+            }
+        }
+
+
+        private HashSet<Vector2> availableCells = new ();
+        public HashSet<Vector2> AvailableCells 
+        { get 
+            {
+                availableCells = map.FillAvailableCells(Distance, Position);
+                return availableCells; 
+            } 
+        }
+
+
+        public static bool IsAlive = true;
+
+        public void GetDamage(Monster monster)
+        {
+            Hp -= monster.Damage;
+            if (Hp <= 0)
+            {
+                map.DeleteCreature(Position);
+                IsAlive = false;
+            }
+        }
+
+        public void TakeDamage(Monster monster)
+        {
+            if (IsAlive)
+                monster.GetDamage(monster);
         }
     }
 }

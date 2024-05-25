@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Grim_Castle.Architecture 
 {
-    public class Weapon
+    public class Weapon : IGameObject
     {
         private string name;
         private double damage;
-        private double distanceDamage;
-        public string Name { get { return name; } }
-        public double Damage { get { return damage; } }
-        public double DistanceDamage { get { return distanceDamage; } }
+        public string Name { get { return name; }  set { name = value; } }
+        public double Damage { get { return damage; } set { damage = value; } }
     }
 }
