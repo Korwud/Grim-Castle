@@ -10,7 +10,7 @@ namespace Grim_Castle.Architecture.Model
     {
         public ShortSword()
         {
-            this.Name = "ShortSword";
+            this.Name = "Short Sword";
             this.Damage = 2;
         }
     }
