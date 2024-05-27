@@ -12,10 +12,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Content\Images\**" />
+    <Compile Remove="Content\img\**" />
     <Compile Remove="Content\Sprite\**" />
     <EmbeddedResource Remove="Content\Images\**" />
+    <EmbeddedResource Remove="Content\img\**" />
     <EmbeddedResource Remove="Content\Sprite\**" />
     <None Remove="Content\Images\**" />
+    <None Remove="Content\img\**" />
     <None Remove="Content\Sprite\**" />
   </ItemGroup>
   <ItemGroup>
