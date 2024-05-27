@@ -10,7 +10,8 @@ namespace Grim_Castle.Architecture.Controller
     {
         public static void Move(Monster monster)
         {
-            monster.SetPosition(monster);
+            if (monster is not null)
+                monster.SetPosition(monster);
         }
     }
 }
