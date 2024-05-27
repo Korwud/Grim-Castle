@@ -28,7 +28,7 @@ namespace Grim_Castle.Architecture.View
                 {
                     var weaponName = Inventory.Weapons[i].Name;
                     Texture2D texture;
-                    if (weaponName == "ShortSword")
+                    if (weaponName == "Short Sword")
                         texture = shortSword;
                     else if (weaponName == "Sword")
                         texture = sword;

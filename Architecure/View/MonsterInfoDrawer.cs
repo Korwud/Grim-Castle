@@ -12,7 +12,8 @@ namespace Grim_Castle.Architecture.View
 {
     public class MonsterInfoDrawer
     {
-        public static void Draw(Texture2D monsterHealth, Texture2D longCell, Texture2D slime, Texture2D skeleton)
+        public static void Draw(Texture2D monsterHealth, Texture2D longCell, Texture2D slime, Texture2D skeleton,
+            Texture2D blackSpider, Texture2D venomousSpider, Texture2D arachna)
         {
             var spriteBatch = Game1.spriteBatch;
             var hpFont = Game1.hpFont;
@@ -28,10 +29,16 @@ namespace Grim_Castle.Architecture.View
                 spriteBatch.Draw(monsterHealth, new Vector2(1400, 15), Color.White);
                 spriteBatch.Draw(longCell, new Vector2(1100, 15), Color.White);
 
-                if (map.Cells[i, j] is Slime)
+                if (monster is Slime)
                     spriteBatch.Draw(slime, new Vector2(1265, 35), Color.White);
-                else if (map.Cells[i, j] is Skeleton)
+                else if (monster is Skeleton)
                     spriteBatch.Draw(skeleton, new Vector2(1270, 25), Color.White);
+                else if (monster is BlackSpider)
+                    spriteBatch.Draw(blackSpider, new Vector2(1255, 45), Color.White);
+                else if (monster is VenomousSpider)
+                    spriteBatch.Draw(venomousSpider, new Vector2(1255, 53), Color.White);
+                else if (monster is Arachna)
+                    spriteBatch.Draw(arachna, new Vector2(1260, 25), Color.White);
 
                 spriteBatch.DrawString(hpFont, $"{(map.Cells[i, j] as Monster).Hp}/{(map.Cells[i, j] as Monster).MaxHp}",
                     new Vector2(1600, 65), Color.White);

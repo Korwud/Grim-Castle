@@ -18,12 +18,15 @@ namespace Grim_Castle.Architecture.View
             spriteBatch.Begin();
             foreach (var monster in monsters)
             {
-                var (i, j) = map.FindCellByVector(monster.Position);
-                var cell = map.CellPositions[i, j];
-                if (map.Cells[i, j] is Spear)
-                    spriteBatch.Draw(spear, new Vector2(cell.X + 10, cell.Y + 5), Color.White);
-                else if (map.Cells[i, j] is Sword)
-                    spriteBatch.Draw(sword, new Vector2(cell.X + 10, cell.Y + 5), Color.White);
+                if (monster is not null)
+                {
+                    var (i, j) = map.FindCellByVector(monster.Position);
+                    var cell = map.CellPositions[i, j];
+                    if (map.Cells[i, j] is Spear)
+                        spriteBatch.Draw(spear, new Vector2(cell.X + 10, cell.Y + 5), Color.White);
+                    else if (map.Cells[i, j] is Sword)
+                        spriteBatch.Draw(sword, new Vector2(cell.X + 10, cell.Y + 5), Color.White);
+                }
             }
             spriteBatch.End();
         }

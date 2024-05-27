@@ -11,16 +11,20 @@ namespace Grim_Castle.Architecture.View
 {
     public class SkeletonDrawer
     {
-        public static void DrawSkeleton(Texture2D texture, Skeleton skeleton)
+        public static void DrawSkeleton(Texture2D texture)
         {
-            var spriteBatch = Game1.spriteBatch;
-            var map = new Map();
-            var (i, j) = map.FindCellByVector(skeleton.Position);
-            if (map.Cells[i, j] is Skeleton)
+            var skeleton = Game1.skeleton;
+            if (skeleton is not null)
             {
-                spriteBatch.Begin();
-                spriteBatch.Draw(texture, new Vector2(skeleton.Position.X + 8, skeleton.Position.Y + 4), Color.White);
-                spriteBatch.End();
+                var spriteBatch = Game1.spriteBatch;
+                var map = new Map();
+                var (i, j) = map.FindCellByVector(skeleton.Position);
+                if (map.Cells[i, j] is Skeleton)
+                {
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(texture, new Vector2(skeleton.Position.X + 8, skeleton.Position.Y + 4), Color.White);
+                    spriteBatch.End();
+                }
             }
         }
     }

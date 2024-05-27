@@ -10,7 +10,7 @@ namespace Grim_Castle.Architecture
 {
     public class MapDrawer
     {
-        public static void DrawMap(Texture2D tile_1, Texture2D tile_2, Texture2D tile_3, Texture2D tile_4)
+        public static void DrawMap(Texture2D tile_1, Texture2D tile_2, Texture2D tile_3, Texture2D tile_4, Texture2D exit, Texture2D lockedExit)
         {
             var spriteBatch = Game1.spriteBatch;
             var map = new Map();
@@ -27,6 +27,13 @@ namespace Grim_Castle.Architecture
                         spriteBatch.Draw(tile, cell, Color.LightYellow);
                     else
                         spriteBatch.Draw(tile, cell, Color.White);
+                    if (i == 12 && j == 2)
+                    {
+                        if (Map.MonsterCount > 0)
+                            spriteBatch.Draw(lockedExit, new Vector2(cell.X + 27, cell.Y + 20), Color.White);
+                        else
+                            spriteBatch.Draw(exit, new Vector2(cell.X + 10, cell.Y + 10), Color.White);
+                    }
                     spriteBatch.End();
                 }
             }

@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Grim_Castle.Architecture.View
 {
-    public class SlimeDrawer
+    public class ArachnaDrawer
     {
-        public static void DrawSlime(Texture2D texture)
+        public static void Draw(Texture2D texture)
         {
-            var slime = Game1.slime;
-            if (slime is not null)
+            var arachna = Game1.arachna;
+            if (arachna is not null)
             {
                 var spriteBatch = Game1.spriteBatch;
                 var map = new Map();
-                var (i, j) = map.FindCellByVector(slime.Position);
-                if (map.Cells[i, j] is Slime)
+                var (i, j) = map.FindCellByVector(arachna.Position);
+                if (map.Cells[i, j] is Arachna)
                 {
                     spriteBatch.Begin();
-                    spriteBatch.Draw(texture, new Vector2(slime.Position.X + 3, slime.Position.Y + 20), Color.White);
+                    spriteBatch.Draw(texture, new Vector2(arachna.Position.X + 8, arachna.Position.Y + 15), Color.White);
                     spriteBatch.End();
                 }
             }
